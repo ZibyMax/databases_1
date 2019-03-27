@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Каталог{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1>Сравнение телефонов</h1>
+        </div>
+        <table style="border="1" width="100%" cellpadding="5"">
+            <tr>
+                <th>Модель телефона</th>
+            {% for phone in phones %}
+                <th>{{ phone.brand }} {{ phone.model }}</th>
+            {% endfor %}
+            </tr>
+            <tr>
+                <td>Дисплей</td>
+            {% for phone in phones %}
+                <td>{{ phone.display }}</td>
+            {% endfor %}
+            </tr>
+            <tr>
+                <td>Память</td>
+            {% for phone in phones %}
+                <td>{{ phone.memory }}</td>
+            {% endfor %}
+            </tr>
+            <tr>
+                <td>Описание</td>
+            {% for phone in phones %}
+                <td>{{ phone.description }}</td>
+            {% endfor %}
+            </tr>
+        </table>
+    </div>
+{% endblock %}
