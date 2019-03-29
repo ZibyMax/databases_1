@@ -7,9 +7,12 @@ from books.models import Book
 
 class BookListView(generic.ListView):
     model = Book
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
+        context['object_list'] = Book.objects.all().order_by('pub_date')
+        print(context)
         return context
 
     def get_queryset(self, **kwargs):
