@@ -8,23 +8,18 @@ from books.models import Book
 class BookListView(generic.ListView):
     model = Book
 
-class BookListPageView(generic.ListView):
+
+class BookListDateView(generic.ListView):
     model = Book
-    #paginate_by = 1
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
-        print(111)
-        context = super(BookListPageView, self).get_context_data(**kwargs)
-        context['book_list'] = Book.objects.all().order_by('pub_date')
+        str_date = self.kwargs.get('date')
+        pub_date = datetime.strptime(f'{str_date}', '%Y-%m-%d')
+        context = super(BookListDateView, self).get_context_data(**kwargs).filter('pub_date')
+        #context['book_list'] = context['book_list'].filter('pub_date')
         return context
 
     def get_queryset(self, **kwargs):
-        print(222)
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        if year and month and day:
-            pub_date = datetime.strptime(f'{year}.{month}.{day}', '%Y.%m.%d')
-            context = super(BookListPageView, self).get_queryset().filter(pub_date=pub_date)
-            return context
-        return super(BookListPageView, self).get_queryset()
+        context = super(BookListDateView, self).get_queryset().order_by('pub_date')
+        return context
