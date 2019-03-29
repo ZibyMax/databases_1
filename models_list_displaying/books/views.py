@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from django.core.paginator import Paginator
 from django.views import generic
 
 from books.models import Book
@@ -10,8 +10,6 @@ class BookListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
-        context['new'] = 'new564'
-        print(context)
         return context
 
     def get_queryset(self, **kwargs):
