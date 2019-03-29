@@ -15,7 +15,6 @@ class BookListView(generic.ListView):
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
         day = self.kwargs.get('day')
-        print(f'{year}+{month}+{day}')
         if year and month and day:
             pub_date = datetime.strptime(f'{year}.{month}.{day}', '%Y.%m.%d')
             print(pub_date)
