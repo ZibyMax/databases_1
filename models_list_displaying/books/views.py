@@ -8,8 +8,11 @@ from books.models import Book
 class BookListView(generic.ListView):
     model = Book
 
-#    def get_context_data(self, **kwargs):
-#        pass
+    def get_context_data(self, **kwargs):
+        context = super(BookListView, self).get_context_data(**kwargs)
+        context['new'] = 'new564'
+        print(context)
+        return context
 
     def get_queryset(self, **kwargs):
         year = self.kwargs.get('year')
