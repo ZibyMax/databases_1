@@ -16,25 +16,10 @@
             </div>
         </div>
         {% endfor %}
-
-        {% if is_paginated %}
-        <div class="pagination">
-            <span class="page-links">
-              {% if page_obj.has_previous %}
-                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-              {% endif %}
-              <span class="page-current">
-                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-              </span>
-              {% if page_obj.has_next %}
-                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-              {% endif %}
-            </span>
-        </div>
-        {% endif %}
+        <p>
+            {% if prev_book %}<a href="/books/{{ prev_book_url }}">{{ prev_book.name }}</a>{% endif %}
+             |
+            {% if next_book %}<a href="/books/{{ next_book_url }}">{{ next_book.name }}</a>{% endif %}
+        </p>
     </div>
 {% endblock %}
-
-
-
-

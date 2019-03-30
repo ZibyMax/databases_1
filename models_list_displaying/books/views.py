@@ -1,5 +1,4 @@
 from datetime import datetime
-from django.core.paginator import Paginator
 from django.views import generic
 
 from books.models import Book
@@ -11,18 +10,15 @@ class BookListView(generic.ListView):
 
 class BookListDateView(generic.ListView):
     model = Book
-    paginate_by = 1
 
     def get_context_data(self, **kwargs):
-        str_date = self.kwargs.get('date')
-        pub_date = datetime.strptime(f'{str_date}', '%Y-%m-%d')
+        date = datetime.strptime(self.kwargs.get('date'), '%Y-%m-%d').date()
         context = super(BookListDateView, self).get_context_data(**kwargs)
-        print(context['page_obj'])
+        context['book_list'] = Book.objects.order_by('pub_date').filter(pub_date__exact=date)
+        context['prev_book'] = Book.objects.order_by('pub_date').filter(pub_date__lt=date).last()
+        context['next_book'] = Book.objects.order_by('pub_date').filter(pub_date__gt=date).first()
+        if context['prev_book']:
+            context['prev_book_url'] = context['prev_book'].pub_date.strftime('%Y-%m-%d')
+        if context['next_book']:
+            context['next_book_url'] = context['next_book'].pub_date.strftime('%Y-%m-%d')
         return context
-
-    def get_queryset(self, **kwargs):
-        context = super(BookListDateView, self).get_queryset().order_by('pub_date')
-        return context
-
-        #context = super(BookListDateView, self).get_context_data(**kwargs).filter('pub_date')
-        #context['book_list'] = context['book_list'].filter('pub_date')
